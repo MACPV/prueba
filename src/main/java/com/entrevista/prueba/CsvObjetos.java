@@ -17,7 +17,7 @@ public class CsvObjetos {
     private String tipo;
 
     @CsvBindByName
-    private double valor;
+    private double monto;
 
 
 }
