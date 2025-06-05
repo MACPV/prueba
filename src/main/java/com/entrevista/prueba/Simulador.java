@@ -4,6 +4,7 @@ import java.io.FileReader;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.exceptions.CsvConstraintViolationException;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Simulador {
         try {
             CsvToBean<CsvObjetos> beanCSV = new CsvToBeanBuilder<CsvObjetos>(new FileReader(datos))
                     .withType(CsvObjetos.class)
-                    .withIgnoreLeadingWhiteSpace(true)
+                    .withIgnoreLeadingWhiteSpace(true).withExceptionHandler(CsvConstraintViolationException::new)
                     .build();
             List<CsvObjetos> objetosCsv = beanCSV.parse();
 
@@ -53,8 +54,8 @@ public class Simulador {
             System.out.println("Total créditos: S/. " + totalDebitos);
             System.out.println("Total débitos: S/. " + totalCreditos);
             System.out.println("Transacción de mayor monto: ID: "+ transaccionMayor.getId() + " - S/. "+ transaccionMayor.getMonto());
-            System.out.println("Total de créditos: S/. " + contDebito);
-            System.out.println("Total de débitos: S/. " + contCredito);
+            System.out.println("Total de créditos:  " + contDebito);
+            System.out.println("Total de débitos:  " + contCredito);
 
             if (balance >= 0) {
                 System.out.println("Balance positivo: +" + balance);
@@ -63,6 +64,7 @@ public class Simulador {
             }
         } catch (Exception e) {
             System.err.println("Error al leer el archivo :" + e.getMessage());
+            System.err.println();
         }
     }
 }
